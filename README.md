@@ -1,5 +1,7 @@
 # SimpleDock MCP Server
 
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/replenysh/simpledock-mcp)
+
 <img src="assets/logo.png" width="120" alt="SimpleDock logo">
 
 The official remote [Model Context Protocol](https://modelcontextprotocol.io) server for [SimpleDock](https://simpledock.ai): warehouse dock appointment scheduling. With it, AI assistants can find open dock slots, book, reschedule, approve and cancel appointments, check trucks in, and read schedules and analytics.
