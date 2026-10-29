@@ -14,7 +14,7 @@ This repo has documentation only. The server is hosted by SimpleDock, so you don
 | Transport | Streamable HTTP |
 | Auth | OAuth 2.1 (Dynamic Client Registration + PKCE). Your client opens a SimpleDock sign-in page. |
 | Registry name | `ai.simpledock/simpledock` (official MCP Registry) |
-| Tools | 40 |
+| Tools | Listed by the server |
 | Docs | https://simpledock.ai/developers/mcp |
 
 You need a SimpleDock account; the free plan works. Sign up at https://simpledock.ai.
@@ -71,6 +71,8 @@ Start with `list_locations`, then `list_appointment_types`, then `get_availabili
 
 ## Tools
 
+The server lists its tools when a client connects. Descriptions below cover that list; this page does not hardcode a count.
+
 | Tool | Description | Access |
 |---|---|---|
 | `list_locations` | List all dock locations in the organization. | read-only |
@@ -107,12 +109,17 @@ Start with `list_locations`, then `list_appointment_types`, then `get_availabili
 | `create_booking_question` | Add a question to an appointment type's booking form (Pro). DROPDOWN needs options. key is how the answer is stored (customFields.{key} on appointments); it defaults to the camelCased label and can't change later. isReference makes the answer a reference number, searchable in the appointments list. | write |
 | `update_booking_question` | Edit a booking question (Pro). Omitted fields are left unchanged; the key never changes. isActive: false hides it from the form but keeps past answers. | write |
 | `delete_booking_question` | Remove a booking question for good. Answers already given stay on past appointments but are no longer labeled; to keep them, set isActive to false with update_booking_question instead. | write |
-| `create_webhook` | Send appointment events to a URL (Pro). SimpleDock posts a test event first and saves the webhook only if the URL answers 2xx. Non-Slack payloads are signed: verify the X-SimpleDock-Signature header with signingSecret, which is returned only now. ZAPIER and SLACK need hooks.zapier.com / hooks.slack.com URLs. eventTypes empty = every event; locationIds empty = every location. | write |
-| `get_account_status` | Whether the account owner has confirmed their email, and what waits until they do (appointment emails and texts, directory listing, search indexing, teammate invites). An account an agent created and nobody confirmed is deleted at deletesAt. Also lists each location's booking page URL. | read-only |
-| `verify_email` | Confirm the owner's email with the six-digit code from the SimpleDock email they received. If you can read their inbox, take it from the newest SimpleDock email (the subject starts with the code); otherwise ask them to read it to you. Never guess. Five wrong codes and the email stops accepting codes (use resend_verification_email). | write |
-| `resend_verification_email` | Send the owner a new confirmation email (link and code). Earlier links and codes stop working. Limited to a few per hour. | write |
+| `get_account_status` | Whether the account owner has confirmed their email, and what waits until they do (appointment emails and texts, directory listing, search indexing, teammate invites). The owner confirms by opening the link in the SimpleDock email. An account an agent created and nobody confirmed is deleted at deletesAt. Also lists each location's booking page URL. | read-only |
+| `resend_verification_email` | Send the owner a new confirmation email. They confirm by opening the link in that email. Earlier links stop working. Limited to a few per hour. | write |
 | `invite_member` | Email someone an invitation to join the organization. Roles: ADMIN (full access, including members and billing), SCHEDULER (book and manage appointments), DOCK_STAFF (mark trucks arrived and done). Needs the owner's email confirmed first. | write |
-| `create_api_key` | Create a long-lived API key (sd_live_…) for scripts and clients that can't refresh OAuth tokens. The full key is returned only now; store it. It's listed under Settings → API, where it can be revoked. Needs the owner's email confirmed first. | write |
+
+## Not available through this server
+
+`verify_email`, `create_api_key`, and `create_webhook` are not tools on this server. Leave passwords, email codes, API keys, and webhook signing secrets in the SimpleDock app. Do not ask for them in chat, and do not read the user's inbox or any other connector.
+
+- Email is confirmed via the link in the SimpleDock email. `resend_verification_email` sends a new link. `get_account_status` reports whether the address is confirmed.
+- API keys are created in the SimpleDock app under Settings → API.
+- Webhook signing secrets are copied from Settings → Integrations.
 
 ## Support
 - Email: support@simpledock.ai
