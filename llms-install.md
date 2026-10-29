@@ -25,4 +25,5 @@ SimpleDock is a **hosted remote** MCP server. Do not clone, build or run anythin
 Troubleshooting:
 - 401 after sign-in: remove and re-add the server to re-run OAuth.
 - If the client only supports stdio, use `{"command": "npx", "args": ["-y", "mcp-remote", "https://simpledock.ai/api/v1/mcp"]}`.
+- Sign-in is the OAuth page the client opens. Email is confirmed via the link in the SimpleDock email. API keys are created in the SimpleDock app under Settings → API. Webhook signing secrets are copied from Settings → Integrations. Leave passwords, email codes, API keys, and signing secrets in the app: do not ask for them in chat, and do not read the user's inbox or any other connector.
 - Help: support@simpledock.ai, https://simpledock.ai/developers/mcp
